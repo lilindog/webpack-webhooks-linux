@@ -29,20 +29,19 @@ new Promise((resolve, reject)=>{
 		}
 	})
 }).then(()=>{
-	
-return new Promise(
-	child_process.exec("chmod u+x build.sh", err=>{
-		if(err){
-			console.log("设置build.sh权限出错");
-			reject(err);
-		}else{
-			resolve();
-		}
-	})
-})
-).catch((err)=>{
+	return new Promise(()=>{
+			child_process.exec("chmod u+x build.sh", err=>{
+				if(err){
+					console.log("设置build.sh权限出错");
+					reject(err);
+				}else{
+					resolve();
+				}
+			})
+		})
+}).catch((err)=>{
 	console.log(err);
-})
+});
 
 
 
