@@ -1,5 +1,6 @@
 {
     "port": 80,
-    "api": "webhooks",
-    "sourceDir": ""
+    "api": "/webhooks",
+    "pass": "8612", 
+    "sourceDir": "",
 }
