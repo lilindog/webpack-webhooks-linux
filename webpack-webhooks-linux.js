@@ -16,8 +16,33 @@ const buildCmd = `
 	cd ${config.sourceDir}\n
 	webpack	
 `;
-fs.writeFileSync(path.join(__dirname, "./pull.sh", pullCmd));
-fs.eriteFileSync(path.join(__dirname, "./build.sh"), buildCmd);
+fs.writeFileSync(path.join(__dirname, "./pull.sh"), pullCmd);
+fs.writeFileSync(path.join(__dirname, "./build.sh"), buildCmd);
+//设置sh脚本执行权限
+new Promise((resolve, reject)=>{
+	child_process.exec("chmod u+x pull.sh", err=>{
+		if(err){	
+			console.log("设置pull.sh权限出错");
+			reject(err);
+		}else{
+			resolve();
+		}
+	})
+}).then(()=>{
+	
+return new Promise(
+	child_process.exec("chmod u+x build.sh", err=>{
+		if(err){
+			console.log("设置build.sh权限出错");
+			reject(err);
+		}else{
+			resolve();
+		}
+	})
+})
+).catch((err)=>{
+	console.log(err);
+})
 
 
 
