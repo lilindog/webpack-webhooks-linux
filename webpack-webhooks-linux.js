@@ -29,7 +29,7 @@ new Promise((resolve, reject)=>{
 		}
 	})
 }).then(()=>{
-	return new Promise(()=>{
+	return new Promise((resolve, reject)=>{
 			child_process.exec("chmod u+x build.sh", err=>{
 				if(err){
 					console.log("设置build.sh权限出错");
@@ -48,7 +48,10 @@ new Promise((resolve, reject)=>{
 http.createServer((req, res)=>{
 
     const pathname = url.parse(req.url).pathname;
-    
+
+    //设置返回头
+    res.setHeader("Content-Type", "text/html;charset=utf-8");    
+
     //处理webhooks请求
     if(pathname === config.api){
 
@@ -64,6 +67,8 @@ http.createServer((req, res)=>{
 	   	}
 		
 		if(body.password === config.pass){
+			
+			res.end("爸爸，已经接到任务，并开始执行拉取了");
 			
 			//开始拉取
 			child_process.execFile(path.join(__dirname, "./pull.sh"), (err)=>{

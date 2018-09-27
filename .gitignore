@@ -3,3 +3,7 @@ node_modules
 
 #忽略package-lock.json
 package-lock.json
+
+#忽略sh脚本文件
+pull.sh
+build.sh
