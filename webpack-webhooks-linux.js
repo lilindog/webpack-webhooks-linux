@@ -4,6 +4,7 @@ const path = require("path");
 const url = require("url");
 const child_process = require("child_process");
 const config = JSON.parse(fs.readFileSync(path.join(__dirname, "./config.json"), "utf-8"));
+const writeLog = require("./writeLog");
 
 
 
@@ -23,6 +24,7 @@ new Promise((resolve, reject)=>{
 	child_process.exec("chmod u+x pull.sh", err=>{
 		if(err){	
 			console.log("设置pull.sh权限出错");
+			log("设置pull.sh权限出错");
 			reject(err);
 		}else{
 			resolve();
@@ -33,6 +35,7 @@ new Promise((resolve, reject)=>{
 			child_process.exec("chmod u+x build.sh", err=>{
 				if(err){
 					console.log("设置build.sh权限出错");
+					log("设置build.sh权限出错");
 					reject(err);
 				}else{
 					resolve();
@@ -64,6 +67,7 @@ http.createServer((req, res)=>{
 			body = JSON.parse(body);
 	        }catch(err){
 			console.log("解析请求的json数据发生错误");
+			log("解析请求的json数据发生错误");
 	   	}
 		
 		if(body.password === config.pass){
@@ -74,22 +78,26 @@ http.createServer((req, res)=>{
 			child_process.execFile(path.join(__dirname, "./pull.sh"), (err)=>{
 				if(err){
 					console.log("拉取错误");
+					log("拉取错误");
 					console.log(err);
 				}else{
 					//执行编译
 					child_process.execFile(path.join(__dirname, "./build.sh"), (err)=>{
 						if(err){
 							console.log("weboack编译发生错误");
+							log("weboack编译发生错误");
 							console.log(err);
 						}else{
 							console.log("编译成功");
+							log("编译成功");
 						}
 					});
 				}
 			});			
 
 		}else{
-			res.end("爸爸，你密码不对哦");	
+			res.end("爸爸，你密码不对哦");
+			log("爸爸，你密码不对哦");	
 		}
 	
 	
@@ -98,8 +106,14 @@ http.createServer((req, res)=>{
 
     }else{
         res.end("爸爸，你把api搞错啦！");
+        log("爸爸，你把api搞错啦！");
     }
 
 }).listen(config.port);
-
 console.log("webhooks服务运行在"+config.port+"端口...");
+
+
+function log(str){
+	const logPath = config.logPath+"webhooks.log" ? config.logPath : "./webhooks.log";
+	writeLog(logPath, str);
+};
