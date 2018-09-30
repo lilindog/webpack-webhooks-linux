@@ -21,7 +21,7 @@ fs.writeFileSync(path.join(__dirname, "./pull.sh"), pullCmd);
 fs.writeFileSync(path.join(__dirname, "./build.sh"), buildCmd);
 //设置sh脚本执行权限
 new Promise((resolve, reject)=>{
-	child_process.exec("chmod u+x pull.sh", err=>{
+	child_process.exec(`cd ${__dirname}\n chmod u+x pull.sh`, err=>{
 		if(err){	
 			console.log("设置pull.sh权限出错");
 			log("设置pull.sh权限出错");
@@ -32,7 +32,7 @@ new Promise((resolve, reject)=>{
 	})
 }).then(()=>{
 	return new Promise((resolve, reject)=>{
-			child_process.exec("chmod u+x build.sh", err=>{
+			child_process.exec(`cd ${__dirname}\n chmod u+x build.sh`, err=>{
 				if(err){
 					console.log("设置build.sh权限出错");
 					log("设置build.sh权限出错");
