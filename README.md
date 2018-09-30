@@ -11,6 +11,7 @@
 |api|webhooks请求api \<string\> 例：“/webhooks” 首个字符必须为正斜杠|
 |pass|webhooks请求时携带的密码 \<string\>|
 |sourceDir|webpack项目所在目录 \<string\> 必须为绝对路径|
+|logPath|webhooks服务日志存放目录\<string\> 缺省为该服务目录。 绝对、相对路径都可以|
 
 ---
 ### 注意
