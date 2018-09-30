@@ -114,6 +114,6 @@ console.log("webhooks服务运行在"+config.port+"端口...");
 
 
 function log(str){
-	const logPath = config.logPath+"webhooks.log" ? config.logPath : "./webhooks.log";
+	const logPath = config.logPath ? path.join(config.logPath, "./webhooks.log") : "./webhooks.log";
 	writeLog(logPath, str);
 };
