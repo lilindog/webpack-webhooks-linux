@@ -10,21 +10,23 @@ const writeLog = require("./writeLog");
 
 //执行生成sh脚本
 const pullCmd = `
-	cd ${config.sourceDir}\n 
-	git pull origin master
+	cd ${config.sourceDir}\n
+	git pull origin master\n
 `;
 const buildCmd = `
 	cd ${config.sourceDir}\n
-	webpack	
+	webpack\n
 `;
+
 fs.writeFileSync(path.join(__dirname, "./pull.sh"), pullCmd);
 fs.writeFileSync(path.join(__dirname, "./build.sh"), buildCmd);
 //设置sh脚本执行权限
 new Promise((resolve, reject)=>{
-	child_process.exec(`cd ${__dirname}\n chmod u+x pull.sh`, err=>{
+	child_process.exec(`cd ${__dirname}\n chmod -R 777  pull.sh`, err=>{
 		if(err){	
 			console.log("设置pull.sh权限出错");
 			log("设置pull.sh权限出错");
+			log(err);
 			reject(err);
 		}else{
 			resolve();
@@ -32,10 +34,11 @@ new Promise((resolve, reject)=>{
 	})
 }).then(()=>{
 	return new Promise((resolve, reject)=>{
-			child_process.exec(`cd ${__dirname}\n chmod u+x build.sh`, err=>{
+			child_process.exec(`cd ${__dirname}\n chmod -R 777 build.sh`, err=>{
 				if(err){
 					console.log("设置build.sh权限出错");
 					log("设置build.sh权限出错");
+					log(err);
 					reject(err);
 				}else{
 					resolve();
@@ -68,6 +71,7 @@ http.createServer((req, res)=>{
 	        }catch(err){
 			console.log("解析请求的json数据发生错误");
 			log("解析请求的json数据发生错误");
+			log(err);
 	   	}
 		
 		if(body.password === config.pass){
@@ -79,6 +83,7 @@ http.createServer((req, res)=>{
 				if(err){
 					console.log("拉取错误");
 					log("拉取错误");
+					log(err);
 					console.log(err);
 				}else{
 					//执行编译
@@ -86,6 +91,7 @@ http.createServer((req, res)=>{
 						if(err){
 							console.log("weboack编译发生错误");
 							log("weboack编译发生错误");
+							log(err);
 							console.log(err);
 						}else{
 							console.log("编译成功");
@@ -99,7 +105,7 @@ http.createServer((req, res)=>{
 			res.end("爸爸，你密码不对哦");
 			log("爸爸，你密码不对哦");	
 		}
-	
+
 	
             
         });
@@ -111,7 +117,6 @@ http.createServer((req, res)=>{
 
 }).listen(config.port);
 console.log("webhooks服务运行在"+config.port+"端口...");
-
 
 function log(str){
 	const logPath = config.logPath ? path.join(config.logPath, "./webhooks.log") : path.join(__dirname, "./webhooks.log");
