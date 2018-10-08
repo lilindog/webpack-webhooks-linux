@@ -15,7 +15,7 @@ const pullCmd = `
 `;
 const buildCmd = `
 	cd ${config.sourceDir}\n
-	webpack\n
+	/node/nodejs/bin/node  ${path.join(config.sourceDir, "/node_modules/webpack/bin/webpack.js")}\n
 `;
 
 fs.writeFileSync(path.join(__dirname, "./pull.sh"), pullCmd);
@@ -91,8 +91,8 @@ http.createServer((req, res)=>{
 					//执行编译
 					child_process.execFile(path.join(__dirname, "./build.sh"), (err)=>{
 						if(err){
-							console.log("weboack编译发生错误");
-							log("weboack编译发生错误");
+							console.log("webpack编译发生错误");
+							log("webpack编译发生错误");
 							log(err);
 							console.log(err);
 						}else{
