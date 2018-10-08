@@ -1,6 +1,6 @@
 {
-    "port": 9999,
-    "api": "/webhooks",
+    "port": 8101,
+    "api": "/",
     "pass": "8612", 
     "sourceDir": "/code/xincheng-supplier",
     "logPath": ""

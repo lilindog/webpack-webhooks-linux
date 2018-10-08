@@ -86,6 +86,8 @@ http.createServer((req, res)=>{
 					log(err);
 					console.log(err);
 				}else{
+					
+					log("拉取成功");
 					//执行编译
 					child_process.execFile(path.join(__dirname, "./build.sh"), (err)=>{
 						if(err){
