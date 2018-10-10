@@ -11,7 +11,7 @@ const writeLog = require("./writeLog");
 //执行生成sh脚本
 const pullCmd = `
 	cd ${config.sourceDir}\n
-	git pull origin master\n
+	git pull origin dev\n
 `;
 const buildCmd = `
 	cd ${config.sourceDir}\n
